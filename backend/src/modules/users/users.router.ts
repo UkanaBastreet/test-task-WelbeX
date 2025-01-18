@@ -6,11 +6,12 @@ import {
   getUserById,
   updateUser,
 } from "./users.controller";
+import { authMiddleware } from "../../middlewares/auth.middleware";
 
 export const usersRouter = Router();
 
-usersRouter.post("/users", createUser);
-usersRouter.get("/users", getAllUsers);
-usersRouter.get("/users/:id", getUserById);
-usersRouter.put("/users/:id", updateUser);
-usersRouter.delete("/users/:id", deleteUser);
+usersRouter.post("/users", authMiddleware, createUser);
+usersRouter.get("/users", authMiddleware, getAllUsers);
+usersRouter.get("/users/:id", authMiddleware, getUserById);
+usersRouter.put("/users/:id", authMiddleware, updateUser);
+usersRouter.delete("/users/:id", authMiddleware, deleteUser);
