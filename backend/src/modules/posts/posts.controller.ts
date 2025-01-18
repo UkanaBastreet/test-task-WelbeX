@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Post } from "../../models/Post";
+import { Post } from "../../models/Post.model";
 
 // Создание поста
 export const createPost = async (req: Request, res: Response) => {

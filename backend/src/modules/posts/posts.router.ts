@@ -7,12 +7,10 @@ import {
   updatePost,
 } from "./posts.controller";
 
-const router = Router();
+export const postsRouter = Router();
 
-router.post("/posts", createPost);
-router.get("/posts", getAllPosts);
-router.get("/posts/:id", getPostById);
-router.put("/posts/:id", updatePost);
-router.delete("/posts/:id", deletePost);
-
-export default router;
+postsRouter.post("/posts", createPost);
+postsRouter.get("/posts", getAllPosts);
+postsRouter.get("/posts/:id", getPostById);
+postsRouter.put("/posts/:id", updatePost);
+postsRouter.delete("/posts/:id", deletePost);

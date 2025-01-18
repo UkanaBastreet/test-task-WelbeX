@@ -8,6 +8,7 @@
     "db:reset": "docker compose down && docker volume rm test-task-welbex_postgres-data && docker-compose up -d"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "pg": "^8.13.1",
@@ -16,6 +17,7 @@
     "sequelize": "^6.37.5"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
     "nodemon": "^3.1.9",

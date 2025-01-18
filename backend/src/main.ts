@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import { sequelize } from "./db";
-import postRoutes from "./modules/posts/posts.router";
+import { usersRouter } from "./modules/users/users.router";
+import { postsRouter } from "./modules/posts/posts.router";
 dotenv.config();
 
 const app = express();
@@ -11,7 +12,8 @@ app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 app.use(express.json());
-app.use(postRoutes);
+app.use(postsRouter);
+app.use(usersRouter);
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
