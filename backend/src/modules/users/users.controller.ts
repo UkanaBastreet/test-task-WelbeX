@@ -8,11 +8,12 @@ interface CreateUserBody {
 
 // Создание поста
 export const createUser = async (
-  req: Request<CreateUserBody>,
+  req: Request<{}, {}, CreateUserBody>,
   res: Response
 ) => {
   try {
-    const newUser = await User.create(req.body);
+    const { email, password } = req.body;
+    const newUser = await User.create({ email, password });
     res.status(201).json(newUser);
   } catch (error) {
     res.status(500).json({ message: "Failed to create user", error });
