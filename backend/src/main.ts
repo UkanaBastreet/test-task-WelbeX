@@ -4,16 +4,26 @@ import { sequelize } from "./db";
 import { usersRouter } from "./modules/users/users.router";
 import { postsRouter } from "./modules/posts/posts.router";
 import { authRouter } from "./modules/auth/auth.router";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
 const PORT = process.env.APP_PORT;
+const isProd = process.env.MODE === "production";
 
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
 app.use(express.json());
-
+app.use(
+  isProd
+    ? cors({
+        origin: "http://localhost:3001", // Разрешаем только с фронтенда
+        methods: ["GET", "POST", "PUT", "DELETE"], // Разрешенные методы
+        credentials: true, // Если используете куки или авторизацию
+      })
+    : cors()
+);
 app.use(postsRouter);
 app.use(usersRouter);
 app.use(authRouter);
