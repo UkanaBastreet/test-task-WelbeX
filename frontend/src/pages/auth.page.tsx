@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Form, Input, Button, message } from "antd";
+import { Form, message, Radio, Card } from "antd";
 import styled from "@emotion/styled";
 import axios from "axios";
+import LoginForm from "../components/LoginForm.component";
+import RegistrationForm from "../components/RegistrationForm.component";
 
 const Container = styled.div`
   display: flex;
@@ -21,11 +23,17 @@ const FormWrapper = styled.div`
 
 const AuthPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [formLayout, setFormLayout] = useState<"Login" | "Registraion">(
+    "Login"
+  );
 
   const onFinish = async (values: { email: string; password: string }) => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/auth/login", values);
+      const response = await axios.post(
+        "http://localhost:3000/auth/login",
+        values
+      );
       localStorage.setItem("token", response.data.token);
       message.success("Вы успешно вошли!");
       window.location.href = "/blog"; // Перенаправляем на страницу блога
@@ -38,29 +46,15 @@ const AuthPage: React.FC = () => {
 
   return (
     <Container>
-      <FormWrapper>
-        <Form name="login" onFinish={onFinish} layout="vertical">
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Пожалуйста, введите email!" }]}
-          >
-            <Input type="email" />
-          </Form.Item>
-          <Form.Item
-            label="Пароль"
-            name="password"
-            rules={[{ required: true, message: "Пожалуйста, введите пароль!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
-              Войти
-            </Button>
-          </Form.Item>
-        </Form>
-      </FormWrapper>
+      <Card>
+        <Form.Item label={null} wrapperCol={{}}>
+          <Radio.Group onChange={(e) => setFormLayout(e.target.value)}>
+            <Radio.Button value={"Login"}>Login</Radio.Button>
+            <Radio.Button value={"Registration"}>Registration</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
+        {formLayout === "Login" ? <LoginForm /> : <RegistrationForm />}
+      </Card>
     </Container>
   );
 };

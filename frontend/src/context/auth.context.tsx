@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setToken(null);
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/auth");
   };
 
   useEffect(() => {
-    if (!token) navigate("login");
+    if (!token) navigate("/auth");
   }, [token, navigate]);
 
   return (
