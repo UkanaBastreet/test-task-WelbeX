@@ -1,44 +1,76 @@
-import { Button, Card, Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, Typography } from "antd";
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import styled from "@emotion/styled";
 import { FC } from "react";
+
+const StyledForm = styled(Form)`
+  .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  .ant-input-affix-wrapper {
+    padding: 8px 11px;
+    border-radius: 8px;
+  }
+  
+  .submit-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+  }
+`;
 
 const RegistrationForm: FC = () => {
   return (
-      <Form
-        className="RegistrationForm"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
+    <StyledForm
+      name="register"
+      layout="vertical"
+    >
+      <Form.Item
+        name="username"
+        rules={[{ required: true, message: "Пожалуйста, введите имя пользователя" }]}
       >
-        <Form.Item
-          label="username"
-          name={"username"}
-          rules={[{ required: true, message: "Please input your username" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="email"
-          name={"email"}
-          rules={[
-            { required: true, message: "Please input your email" },
-            { message: "Incorrect email adress", type: "email" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="password"
-          name={"password"}
-          rules={[{ required: true, message: "Please input your password" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item label={null}>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
+        <Input
+          prefix={<UserOutlined />}
+          placeholder="Имя пользователя"
+          size="large"
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="email"
+        rules={[
+          { required: true, message: "Пожалуйста, введите email" },
+          { type: "email", message: "Введите корректный email" }
+        ]}
+      >
+        <Input
+          prefix={<MailOutlined />}
+          placeholder="Email"
+          size="large"
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="password"
+        rules={[
+          { required: true, message: "Пожалуйста, введите пароль" },
+          { min: 6, message: "Пароль должен быть не менее 6 символов" }
+        ]}
+      >
+        <Input.Password
+          prefix={<LockOutlined />}
+          placeholder="Пароль"
+          size="large"
+        />
+      </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="submit-button" size="large">
+          Зарегистрироваться
+        </Button>
+      </Form.Item>
+    </StyledForm>
   );
 };
 

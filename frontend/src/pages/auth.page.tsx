@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Form, message, Radio, Card } from "antd";
+import { Tabs, Card } from "antd";
 import styled from "@emotion/styled";
-import axios from "axios";
 import LoginForm from "../components/LoginForm.component";
 import RegistrationForm from "../components/RegistrationForm.component";
 
@@ -9,52 +8,45 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 `;
 
-const FormWrapper = styled.div`
-  width: 400px;
-  padding: 24px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+const StyledCard = styled(Card)`
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  
+  .ant-card-body {
+    padding: 24px 32px;
+  }
 `;
 
 const AuthPage: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-  const [formLayout, setFormLayout] = useState<"Login" | "Registraion">(
-    "Login"
-  );
-
-  const onFinish = async (values: { email: string; password: string }) => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/login",
-        values
-      );
-      localStorage.setItem("token", response.data.token);
-      message.success("Вы успешно вошли!");
-      window.location.href = "/blog"; // Перенаправляем на страницу блога
-    } catch (error) {
-      message.error("Ошибка авторизации. Проверьте данные.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [activeTab, setActiveTab] = useState<string>("login");
 
   return (
     <Container>
-      <Card>
-        <Form.Item label={null} wrapperCol={{}}>
-          <Radio.Group onChange={(e) => setFormLayout(e.target.value)}>
-            <Radio.Button value={"Login"}>Login</Radio.Button>
-            <Radio.Button value={"Registration"}>Registration</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        {formLayout === "Login" ? <LoginForm /> : <RegistrationForm />}
-      </Card>
+      <StyledCard>
+        <Tabs
+          activeKey={activeTab}
+          onChange={setActiveTab}
+          centered
+          items={[
+            {
+              key: 'login',
+              label: 'Вход',
+              children: <LoginForm />,
+            },
+            {
+              key: 'register',
+              label: 'Регистрация',
+              children: <RegistrationForm />,
+            },
+          ]}
+        />
+      </StyledCard>
     </Container>
   );
 };

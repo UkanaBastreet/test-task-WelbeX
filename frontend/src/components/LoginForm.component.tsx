@@ -1,37 +1,69 @@
-import { Button, Card, Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Form, Input, Checkbox, Typography } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import styled from "@emotion/styled";
 import { FC } from "react";
+
+const StyledForm = styled(Form)`
+  .ant-form-item {
+    margin-bottom: 20px;
+  }
+  
+  .ant-input-affix-wrapper {
+    padding: 8px 11px;
+    border-radius: 8px;
+  }
+  
+  .submit-button {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+  }
+`;
 
 const LoginForm: FC = () => {
   return (
-    <Form
-      className="LoginForm"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
+    <StyledForm
+      name="login"
+      initialValues={{ remember: true }}
+      layout="vertical"
     >
       <Form.Item
-        label="login"
-        name={"login"}
-        rules={[{ required: true, message: "Please input your username" },{type:'email'}]}
+        name="login"
+        rules={[
+          { required: true, message: "Пожалуйста, введите email" },
+          { type: "email", message: "Введите корректный email" }
+        ]}
       >
-        <Input />
+        <Input 
+          prefix={<UserOutlined />} 
+          placeholder="Email"
+          size="large"
+        />
       </Form.Item>
+
       <Form.Item
-        label="password"
-        name={"password"}
-        rules={[{ required: true, message: "Please input your password" }]}
+        name="password"
+        rules={[{ required: true, message: "Пожалуйста, введите пароль" }]}
       >
-        <Input.Password />
+        <Input.Password
+          prefix={<LockOutlined />}
+          placeholder="Пароль"
+          size="large"
+        />
       </Form.Item>
-      <Form.Item label={null}>
-        <Checkbox>Remember me</Checkbox>
+
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox>Запомнить меня</Checkbox>
+        </Form.Item>
       </Form.Item>
-      <Form.Item label={null}>
-        <Button type="primary" htmlType="submit">
-          Login
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="submit-button" size="large">
+          Войти
         </Button>
       </Form.Item>
-    </Form>
+    </StyledForm>
   );
 };
 
